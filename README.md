@@ -37,3 +37,21 @@ SELECT
 FROM blinkit_cleaned
 GROUP BY outlet_identifier, outlet_type, outlet_location_type
 ORDER BY outlet_revenue DESC;
+
+### 2. CTE & Ranking: Top 3 Products per Category
+Identified the top-performing specific SKUs within every product category for targeted inventory restocking.
+```sql
+WITH CategoryItemSales AS (
+    SELECT 
+        item_type,
+        item_identifier,
+        ROUND(SUM(item_outlet_sales), 2) AS total_item_sales,
+        DENSE_RANK() OVER (
+            PARTITION BY item_type 
+            ORDER BY SUM(item_outlet_sales) DESC
+        ) AS rank_in_category
+    FROM blinkit_cleaned
+    GROUP BY item_type, item_identifier
+)
+SELECT * FROM CategoryItemSales
+WHERE rank_in_category <= 3;
