@@ -37,6 +37,7 @@ SELECT
 FROM blinkit_cleaned
 GROUP BY outlet_identifier, outlet_type, outlet_location_type
 ORDER BY outlet_revenue DESC;
+```
 
 ### 2. CTE & Ranking: Top 3 Products per Category
 Identified the top-performing specific SKUs within every product category for targeted inventory restocking.
